@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -52,6 +53,10 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				electric: 'hsl(var(--electric))',
+				mechanical: 'hsl(var(--mechanical))',
+				hybrid: 'hsl(var(--hybrid))',
+				gear: 'hsl(var(--gear))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,11 +89,47 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'bounce-gentle': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-5px)' }
+				},
+				'gear-rotate': {
+					'0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg)' }
+				},
+				'pulse-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px hsl(var(--primary) / 0.2)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 40px hsl(var(--primary) / 0.4)' 
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 6s ease-in-out infinite',
+				'bounce-gentle': 'bounce-gentle 2s ease-in-out infinite',
+				'gear-rotate': 'gear-rotate 20s linear infinite',
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-secondary': 'var(--gradient-secondary)',
+				'gradient-accent': 'var(--gradient-accent)',
+				'gradient-electric': 'var(--gradient-electric)',
+				'gradient-mechanical': 'var(--gradient-mechanical)'
+			},
+			boxShadow: {
+				'card': 'var(--shadow-card)',
+				'float': 'var(--shadow-float)',
+				'glow': 'var(--shadow-glow)'
 			}
 		}
 	},
