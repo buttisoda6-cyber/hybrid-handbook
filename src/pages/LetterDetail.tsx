@@ -31,7 +31,7 @@ const LetterDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-background relative animate-fade-in">
       <Header />
       
       {/* Sticky Navigation Header */}
@@ -43,7 +43,7 @@ const LetterDetail = () => {
               variant="outline"
               onClick={() => previousLetter && handleNavigation(previousLetter)}
               disabled={!previousLetter}
-              className="flex items-center gap-3 bg-black/20 border-white/20 text-white hover:bg-black/30 hover:border-white/30 backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
+              className="flex items-center gap-3 bg-primary/20 border-primary/30 text-white hover:bg-primary/40 hover:border-primary/50 hover:text-white backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
             >
               <ChevronLeft className="w-5 h-5" />
               {previousLetter ? `Letter ${previousLetter}` : 'Previous'}
@@ -53,7 +53,7 @@ const LetterDetail = () => {
               variant="outline"
               onClick={() => nextLetter && handleNavigation(nextLetter)}
               disabled={!nextLetter}
-              className="flex items-center gap-3 bg-black/20 border-white/20 text-white hover:bg-black/30 hover:border-white/30 backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
+              className="flex items-center gap-3 bg-primary/20 border-primary/30 text-white hover:bg-primary/40 hover:border-primary/50 hover:text-white backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
             >
               {nextLetter ? `Letter ${nextLetter}` : 'Next'}
               <ChevronRight className="w-5 h-5" />
