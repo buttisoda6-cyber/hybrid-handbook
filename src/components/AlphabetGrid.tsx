@@ -14,7 +14,7 @@ const AlphabetGrid = () => {
       {dictionaryData.map((entry) => (
         <Card
           key={entry.letter}
-          className="aspect-square flex items-center justify-center cursor-pointer bg-gradient-primary hover:bg-gradient-secondary transform hover:scale-105 transition-all duration-300 hover:shadow-glow group"
+          className="aspect-square flex items-center justify-center cursor-pointer bg-primary text-white hover:bg-secondary transform hover:scale-105 transition-all duration-300 hover:shadow-lg group"
           onClick={() => handleLetterClick(entry.letter)}
         >
           <div className="text-center">

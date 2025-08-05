@@ -31,46 +31,53 @@ const LetterDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative animate-fade-in">
       <Header />
       
-      <main className="container mx-auto px-4 py-8">
-        {/* Navigation Buttons */}
-        <div className="flex justify-between items-center mb-8">
-          <Button
-            variant="outline"
-            onClick={() => previousLetter && handleNavigation(previousLetter)}
-            disabled={!previousLetter}
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            {previousLetter ? `${previousLetter}` : 'Previous'}
-          </Button>
-          
-          <Button
-            variant="outline"
-            onClick={() => nextLetter && handleNavigation(nextLetter)}
-            disabled={!nextLetter}
-            className="flex items-center gap-2"
-          >
-            {nextLetter ? `${nextLetter}` : 'Next'}
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
-
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-primary rounded-full text-white text-4xl font-bold mb-4 animate-pulse-glow">
-            {entry.letter}
+      {/* Sticky Navigation Header */}
+      <div className="sticky top-0 z-50 bg-gradient-to-r from-background via-card to-background backdrop-blur-xl border-b border-white/10 shadow-neon">
+        <div className="container mx-auto px-4 py-6">
+          {/* Navigation Buttons */}
+          <div className="flex justify-between items-center mb-6">
+            <Button
+              variant="outline"
+              onClick={() => previousLetter && handleNavigation(previousLetter)}
+              disabled={!previousLetter}
+              className="flex items-center gap-3 bg-primary/20 border-primary/30 text-white hover:bg-primary/40 hover:border-primary/50 hover:text-white backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
+            >
+              <ChevronLeft className="w-5 h-5" />
+              {previousLetter ? `Letter ${previousLetter}` : 'Previous'}
+            </Button>
+            
+            <Button
+              variant="outline"
+              onClick={() => nextLetter && handleNavigation(nextLetter)}
+              disabled={!nextLetter}
+              className="flex items-center gap-3 bg-primary/20 border-primary/30 text-white hover:bg-primary/40 hover:border-primary/50 hover:text-white backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
+            >
+              {nextLetter ? `Letter ${nextLetter}` : 'Next'}
+              <ChevronRight className="w-5 h-5" />
+            </Button>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            Letter {entry.letter}
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Explore engineering terms starting with {entry.letter}
-          </p>
-        </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* Letter Display */}
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-primary rounded-full text-white text-5xl font-bold mb-4 animate-pulse-glow shadow-neon border border-white/20">
+              {entry.letter}
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Letter {entry.letter}
+            </h2>
+            <p className="text-muted-foreground text-xl">
+              Explore engineering terms starting with {entry.letter}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Scrollable Content */}
+      <main className="container mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-2 gap-12 max-w-7xl mx-auto">
           <TermCard
             type="Prime Mover"
             term={entry.primeMover.term}
