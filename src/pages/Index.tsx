@@ -13,47 +13,42 @@ const Index = () => {
       <section className="relative overflow-hidden">
         <div className="container mx-auto px-4 py-12">
           <div className="text-center mb-12">
-            <div className="relative inline-block">
-              <img 
-                src={heroImage} 
-                alt="Engineering Education" 
-                className="w-full max-w-4xl mx-auto rounded-lg shadow-glow"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg"></div>
-              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center text-white">
-                <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                  Welcome to Learning!
-                </h2>
-                <p className="text-lg md:text-xl text-white/90">
-                  Discover engineering terms from A to Z
-                </p>
-              </div>
-            </div>
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+              Engineering Dictionary
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8">
+              Learn Prime Movers & Hybrid Vehicle Terms from A to Z
+            </p>
+            <img 
+              src={heroImage} 
+              alt="Engineering Education" 
+              className="w-full max-w-2xl mx-auto rounded-lg shadow-lg"
+            />
           </div>
 
           {/* Feature Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <Card className="bg-gradient-primary text-white hover:shadow-card transition-all duration-300">
+            <Card className="bg-card hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20">
               <CardContent className="p-6 text-center">
-                <Zap className="w-12 h-12 mx-auto mb-4 animate-float" />
-                <h3 className="text-xl font-bold mb-2">Prime Movers</h3>
-                <p className="text-white/90">Learn about engines, generators, and power systems</p>
+                <Zap className="w-12 h-12 mx-auto mb-4 text-electric" />
+                <h3 className="text-xl font-bold mb-2 text-foreground">Prime Movers</h3>
+                <p className="text-muted-foreground">Learn about engines, generators, and power systems</p>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-secondary text-white hover:shadow-card transition-all duration-300">
+            <Card className="bg-card hover:shadow-lg transition-all duration-300 border-2 hover:border-mechanical/20">
               <CardContent className="p-6 text-center">
-                <Car className="w-12 h-12 mx-auto mb-4 animate-bounce-gentle" />
-                <h3 className="text-xl font-bold mb-2">Hybrid Vehicles</h3>
-                <p className="text-white/90">Explore modern automotive technology</p>
+                <Car className="w-12 h-12 mx-auto mb-4 text-mechanical" />
+                <h3 className="text-xl font-bold mb-2 text-foreground">Hybrid Vehicles</h3>
+                <p className="text-muted-foreground">Explore modern automotive technology</p>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-accent text-white hover:shadow-card transition-all duration-300">
+            <Card className="bg-card hover:shadow-lg transition-all duration-300 border-2 hover:border-accent/20">
               <CardContent className="p-6 text-center">
-                <BookOpen className="w-12 h-12 mx-auto mb-4 animate-gear-rotate" />
-                <h3 className="text-xl font-bold mb-2">Interactive Learning</h3>
-                <p className="text-white/90">Visual dictionary with detailed explanations</p>
+                <BookOpen className="w-12 h-12 mx-auto mb-4 text-accent" />
+                <h3 className="text-xl font-bold mb-2 text-foreground">Interactive Learning</h3>
+                <p className="text-muted-foreground">Visual dictionary with detailed explanations</p>
               </CardContent>
             </Card>
           </div>
