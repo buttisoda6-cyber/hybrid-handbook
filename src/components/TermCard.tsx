@@ -13,7 +13,7 @@ const TermCard = ({ type, term, description, image, gradient }: TermCardProps) =
   return (
     <Card className={`h-full ${gradient} text-white shadow-card hover:shadow-float transform hover:scale-105 transition-all duration-300`}>
       <CardHeader className="text-center pb-4">
-        <Badge variant="secondary" className="w-fit mx-auto mb-3 bg-white/20 text-white border-0 hover:bg-white/30">
+        <Badge variant="secondary" className="w-fit mx-auto mb-4 bg-white/20 text-white border-0 hover:bg-white/30 text-lg px-4 py-2 font-semibold">
           {type}
         </Badge>
         <div className="w-60 h-60 mx-auto mb-4 rounded-lg bg-white/20 p-3 animate-float">
