@@ -16,7 +16,7 @@ const TermCard = ({ type, term, description, image, gradient }: TermCardProps) =
         <Badge variant="secondary" className="w-fit mx-auto mb-3 bg-white/20 text-white border-0 hover:bg-white/30">
           {type}
         </Badge>
-        <div className="w-32 h-32 mx-auto mb-4 rounded-lg bg-white/20 p-3 animate-float">
+        <div className="w-40 h-40 mx-auto mb-4 rounded-lg bg-white/20 p-3 animate-float">
           <img 
             src={image} 
             alt={term}
