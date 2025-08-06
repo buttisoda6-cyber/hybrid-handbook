@@ -4,12 +4,10 @@ import TermCard from "@/components/TermCard";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
 
 const LetterDetail = () => {
   const { letter } = useParams<{ letter: string }>();
   const navigate = useNavigate();
-  const [isAnimating, setIsAnimating] = useState(false);
   
   if (!letter) {
     return <Navigate to="/" replace />;
@@ -29,64 +27,57 @@ const LetterDetail = () => {
   const nextLetter = currentIndex < dictionaryData.length - 1 ? dictionaryData[currentIndex + 1].letter : null;
 
   const handleNavigation = (targetLetter: string) => {
-    setIsAnimating(true);
-    setTimeout(() => {
-      navigate(`/letter/${targetLetter.toLowerCase()}`);
-    }, 150);
+    navigate(`/letter/${targetLetter.toLowerCase()}`);
   };
 
-  useEffect(() => {
-    setIsAnimating(false);
-  }, [letter]);
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
       <Header />
       
-      {/* Sticky Letter Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b shadow-sm">
-        <div className="container mx-auto px-4 py-4">
+      {/* Sticky Navigation Header */}
+      <div className="sticky top-0 z-50 bg-gradient-to-r from-background via-card to-background backdrop-blur-xl border-b border-white/10 shadow-neon">
+        <div className="container mx-auto px-4 py-6">
           {/* Navigation Buttons */}
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-6">
             <Button
               variant="outline"
               onClick={() => previousLetter && handleNavigation(previousLetter)}
-              disabled={!previousLetter || isAnimating}
-              className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground"
+              disabled={!previousLetter}
+              className="flex items-center gap-3 bg-black/20 border-white/20 text-white hover:bg-black/30 hover:border-white/30 backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
             >
-              <ChevronLeft className="w-4 h-4" />
-              {previousLetter ? `${previousLetter}` : 'Previous'}
+              <ChevronLeft className="w-5 h-5" />
+              {previousLetter ? `Letter ${previousLetter}` : 'Previous'}
             </Button>
             
             <Button
               variant="outline"
               onClick={() => nextLetter && handleNavigation(nextLetter)}
-              disabled={!nextLetter || isAnimating}
-              className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground"
+              disabled={!nextLetter}
+              className="flex items-center gap-3 bg-black/20 border-white/20 text-white hover:bg-black/30 hover:border-white/30 backdrop-blur-sm px-6 py-3 text-lg transition-all duration-300"
             >
-              {nextLetter ? `${nextLetter}` : 'Next'}
-              <ChevronRight className="w-4 h-4" />
+              {nextLetter ? `Letter ${nextLetter}` : 'Next'}
+              <ChevronRight className="w-5 h-5" />
             </Button>
           </div>
 
+          {/* Letter Display */}
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-full text-white text-2xl font-bold mb-2 animate-pulse-glow">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-primary rounded-full text-white text-5xl font-bold mb-4 animate-pulse-glow shadow-neon border border-white/20">
               {entry.letter}
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-1">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Letter {entry.letter}
             </h2>
-            <p className="text-muted-foreground text-sm md:text-base">
+            <p className="text-muted-foreground text-xl">
               Explore engineering terms starting with {entry.letter}
             </p>
           </div>
         </div>
       </div>
-      
-      <main className={`container mx-auto px-4 py-8 transition-all duration-300 ${
-        isAnimating ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
-      }`}>
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto animate-fade-in">
+
+      {/* Scrollable Content */}
+      <main className="container mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-2 gap-12 max-w-7xl mx-auto">
           <TermCard
             type="Prime Mover"
             term={entry.primeMover.term}
