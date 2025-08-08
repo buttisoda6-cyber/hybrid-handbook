@@ -1,5 +1,6 @@
 import AlphabetGrid from "@/components/AlphabetGrid";
 import Header from "@/components/Header";
+import Quiz from "@/components/Quiz";
 import heroImage from "@/assets/hero-engineering.jpg";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Zap, Car } from "lucide-react";
@@ -72,6 +73,9 @@ const Index = () => {
           <AlphabetGrid />
         </div>
       </section>
+
+      {/* Quiz Section */}
+      <Quiz />
     </div>
   );
 };
