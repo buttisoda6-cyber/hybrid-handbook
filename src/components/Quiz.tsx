@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { dictionaryData } from "@/data/dictionary";
-import { CheckCircle, XCircle, RotateCcw, Trophy, Star, Brain, Zap, Rocket } from "lucide-react";
+import { CheckCircle, XCircle, RotateCcw, Trophy, Star, Brain, Zap, Rocket, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface QuizQuestion {
@@ -89,7 +89,29 @@ const Quiz = () => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [unlockedLevels, setUnlockedLevels] = useState<number[]>([1]); // Start with level 1 unlocked
   const { toast } = useToast();
+
+  // Load unlocked levels from localStorage on component mount
+  useEffect(() => {
+    const savedProgress = localStorage.getItem('quiz-progress');
+    if (savedProgress) {
+      try {
+        const progress = JSON.parse(savedProgress);
+        setUnlockedLevels(progress.unlockedLevels || [1]);
+      } catch (error) {
+        console.error('Failed to load quiz progress:', error);
+        setUnlockedLevels([1]);
+      }
+    }
+  }, []);
+
+  // Save progress to localStorage whenever unlocked levels change
+  useEffect(() => {
+    localStorage.setItem('quiz-progress', JSON.stringify({
+      unlockedLevels
+    }));
+  }, [unlockedLevels]);
 
   // Timer effect
   useEffect(() => {
@@ -145,6 +167,16 @@ const Quiz = () => {
   };
 
   const startQuiz = (level: QuizLevel) => {
+    // Check if level is unlocked
+    if (!unlockedLevels.includes(level.id)) {
+      toast({
+        title: "Level Locked!",
+        description: "Complete the previous level to unlock this one.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const quizQuestions = generateQuestions(level);
     setQuestions(quizQuestions);
     setSelectedLevel(level);
@@ -172,6 +204,21 @@ const Quiz = () => {
         setShowResult(false);
       } else {
         setQuizCompleted(true);
+        
+        // Check if level is completed successfully and unlock next level
+        const finalScore = score + (isCorrect ? 1 : 0);
+        const passingScore = Math.ceil(questions.length * 0.7); // 70% passing rate
+        
+        if (finalScore >= passingScore && selectedLevel) {
+          const nextLevelId = selectedLevel.id + 1;
+          if (nextLevelId <= quizLevels.length && !unlockedLevels.includes(nextLevelId)) {
+            setUnlockedLevels(prev => [...prev, nextLevelId]);
+            toast({
+              title: "Level Unlocked! 🎉",
+              description: `You've unlocked ${quizLevels.find(l => l.id === nextLevelId)?.name} level!`,
+            });
+          }
+        }
       }
     }, 2000);
   };
@@ -195,12 +242,17 @@ const Quiz = () => {
 
   const getScoreMessage = () => {
     const percentage = (score / questions.length) * 100;
-    if (percentage >= 90) return "🏆 Outstanding! You're an engineering master!";
-    if (percentage >= 80) return "🌟 Excellent work! Great engineering knowledge!";
-    if (percentage >= 70) return "👏 Good job! You're on the right track!";
-    if (percentage >= 60) return "📚 Not bad! Keep studying to improve!";
-    return "💪 Keep learning! Practice makes perfect!";
+    const passingScore = Math.ceil(questions.length * 0.7);
+    const passed = score >= passingScore;
+    
+    if (percentage >= 90) return { message: "🏆 Outstanding! You're an engineering master!", passed };
+    if (percentage >= 80) return { message: "🌟 Excellent work! Great engineering knowledge!", passed };
+    if (percentage >= 70) return { message: "👏 Good job! You're on the right track!", passed };
+    if (percentage >= 60) return { message: "📚 Not bad! Keep studying to improve!", passed };
+    return { message: "💪 Keep learning! Practice makes perfect!", passed };
   };
+
+  const isLevelUnlocked = (levelId: number) => unlockedLevels.includes(levelId);
 
   if (!selectedLevel) {
     return (
@@ -216,32 +268,63 @@ const Quiz = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {quizLevels.map((level) => (
-              <Card
-                key={level.id}
-                className={`${level.gradient} text-white hover:shadow-glow transform hover:scale-105 transition-all duration-300 cursor-pointer group`}
-                onClick={() => startQuiz(level)}
-              >
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-3 group-hover:animate-bounce-gentle">
-                    {level.icon}
-                  </div>
-                  <CardTitle className="text-xl">{level.name}</CardTitle>
-                  <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                    {level.difficulty}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-white/90 text-sm mb-4">{level.description}</p>
-                  <div className="space-y-2 text-sm">
-                    <div>📝 {level.questionCount} Questions</div>
-                    {level.timeLimit && (
-                      <div>⏱️ {Math.floor(level.timeLimit / 60)} Minutes</div>
+            {quizLevels.map((level) => {
+              const isUnlocked = isLevelUnlocked(level.id);
+              return (
+                <Card
+                  key={level.id}
+                  className={`${
+                    isUnlocked 
+                      ? `${level.gradient} text-white hover:shadow-glow transform hover:scale-105 transition-all duration-300 cursor-pointer` 
+                      : 'bg-muted text-muted-foreground cursor-not-allowed opacity-60'
+                  } group relative`}
+                  onClick={() => isUnlocked && startQuiz(level)}
+                >
+                  {!isUnlocked && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg z-10">
+                      <Lock className="w-8 h-8 text-white" />
+                    </div>
+                  )}
+                  <CardHeader className="text-center">
+                    <div className={`mx-auto mb-3 ${isUnlocked ? 'group-hover:animate-bounce-gentle' : ''}`}>
+                      {level.icon}
+                    </div>
+                    <CardTitle className="text-xl">{level.name}</CardTitle>
+                    <Badge 
+                      variant="secondary" 
+                      className={
+                        isUnlocked 
+                          ? "bg-white/20 text-white border-white/30" 
+                          : "bg-muted-foreground/20"
+                      }
+                    >
+                      {level.difficulty}
+                    </Badge>
+                    {!isUnlocked && (
+                      <Badge variant="outline" className="mt-2">
+                        🔒 Locked
+                      </Badge>
                     )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <p className={`text-sm mb-4 ${isUnlocked ? 'text-white/90' : 'text-muted-foreground'}`}>
+                      {level.description}
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div>📝 {level.questionCount} Questions</div>
+                      {level.timeLimit && (
+                        <div>⏱️ {Math.floor(level.timeLimit / 60)} Minutes</div>
+                      )}
+                    </div>
+                    {!isUnlocked && (
+                      <p className="text-xs mt-2 text-muted-foreground">
+                        Complete previous level to unlock
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -264,7 +347,30 @@ const Quiz = () => {
               <div className="text-xl">
                 {((score / questions.length) * 100).toFixed(0)}% Correct
               </div>
-              <p className="text-lg text-white/90">{getScoreMessage()}</p>
+              {(() => {
+                const result = getScoreMessage();
+                return (
+                  <>
+                    <p className="text-lg text-white/90">{result.message}</p>
+                    {result.passed && selectedLevel && selectedLevel.id < quizLevels.length && !unlockedLevels.includes(selectedLevel.id + 1) && (
+                      <div className="bg-white/10 p-4 rounded-lg">
+                        <p className="text-sm text-white/80 mb-2">🎉 Congratulations!</p>
+                        <p className="text-sm text-white/90">
+                          You've unlocked the next level: {quizLevels.find(l => l.id === selectedLevel.id + 1)?.name}!
+                        </p>
+                      </div>
+                    )}
+                    {!result.passed && (
+                      <div className="bg-white/10 p-4 rounded-lg">
+                        <p className="text-sm text-white/80 mb-2">📚 Keep Learning!</p>
+                        <p className="text-sm text-white/90">
+                          You need {Math.ceil(questions.length * 0.7)} correct answers (70%) to unlock the next level.
+                        </p>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
               <div className="space-y-2">
                 <div>Level: {selectedLevel.name}</div>
                 <div>Difficulty: {selectedLevel.difficulty}</div>
