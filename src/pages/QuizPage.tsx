@@ -285,7 +285,7 @@ const QuizPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-16 max-w-2xl">
-          <Card className="bg-gradient-primary text-white">
+          <Card className={`${selectedLevel.gradient} text-white animate-fade-in`}>
             <CardHeader className="text-center">
               <Trophy className="w-16 h-16 mx-auto mb-4 animate-bounce-gentle" />
               <CardTitle className="text-3xl">Quiz Complete!</CardTitle>
@@ -328,7 +328,7 @@ const QuizPage = () => {
                   <div>Time Remaining: {formatTime(timeLeft)}</div>
                 )}
               </div>
-              <div className="flex gap-4 justify-center">
+              <div className="flex gap-4 justify-center flex-wrap">
                 <Button
                   onClick={handleBackToHome}
                   className="bg-white text-primary hover:bg-white/90"
@@ -336,6 +336,19 @@ const QuizPage = () => {
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Home
                 </Button>
+                {selectedLevel && (() => {
+                  const nextId = selectedLevel.id + 1;
+                  const result = getScoreMessage();
+                  const canGoNext = nextId <= quizLevels.length && (result.passed || unlockedLevels.includes(nextId));
+                  return canGoNext ? (
+                    <Button
+                      onClick={() => navigate(`/quiz/${nextId}`)}
+                      className="bg-white text-primary hover:bg-white/90"
+                    >
+                      Next Level
+                    </Button>
+                  ) : null;
+                })()}
                 <Button
                   onClick={() => window.location.reload()}
                   variant="outline"
@@ -395,7 +408,7 @@ const QuizPage = () => {
         </div>
 
         {/* Question Card */}
-        <Card className="mb-6">
+        <Card className="mb-6 animate-fade-in">
           <CardHeader>
             <CardTitle className="text-xl text-center">
               {currentQuestion.question}
