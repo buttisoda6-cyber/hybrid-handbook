@@ -1,17 +1,11 @@
 import AlphabetGrid from "@/components/AlphabetGrid";
 import Header from "@/components/Header";
 import Quiz from "@/components/Quiz";
+import heroImage from "@/assets/hero-engineering.jpg";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { BookOpen, Zap, Trophy } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { BookOpen, Zap, Car } from "lucide-react";
 
 const Index = () => {
-  const navigate = useNavigate();
-  const handleStartLearning = () => {
-    document.getElementById("alphabet-start")?.scrollIntoView({ behavior: "smooth" });
-  };
-  const handleTakeQuiz = () => navigate("/quiz/beginner");
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -19,53 +13,50 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="container mx-auto px-4 py-12">
-          {/* New Hero Block */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-primary py-20 px-6 shadow-glow">
-            <div className="absolute inset-0">
-              <div className="absolute -top-10 -left-10 w-72 h-72 rounded-full bg-white/10 blur-3xl" />
-              <div className="absolute -bottom-16 -right-16 w-96 h-96 rounded-full bg-black/20 blur-3xl opacity-40" />
-            </div>
-            <div className="relative text-center text-white max-w-3xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
-                Learn Engineering
-                <span className="block md:text-6xl">Like Never Before</span>
-              </h2>
-              <p className="text-white/90 text-lg md:text-xl mb-8">
-                Master Prime Movers and Hybrid Vehicles through interactive learning, gamified challenges, and visual engineering concepts.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button onClick={handleStartLearning} className="bg-white/20 hover:bg-white/30 border-0 text-white">
-                  <BookOpen className="w-4 h-4 mr-2" /> Start Learning
-                </Button>
-                <Button variant="secondary" onClick={handleTakeQuiz} className="bg-black/30 hover:bg-black/40 border-0 text-white">
-                  Take Quiz
-                </Button>
+          <div className="text-center mb-12">
+            <div className="relative inline-block">
+              <img 
+                src={heroImage} 
+                alt="Engineering Education" 
+                className="w-full max-w-4xl mx-auto rounded-lg shadow-glow"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg"></div>
+              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center text-white">
+                <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                  Welcome to Learning!
+                </h2>
+                <p className="text-lg md:text-xl text-white/90">
+                  Discover engineering terms from A to Z
+                </p>
               </div>
             </div>
-            {/* Feature Cards Overlap */}
-            <div className="grid md:grid-cols-3 gap-6 mt-16">
-              <Card className="bg-white/10 backdrop-blur border border-white/20 text-white hover:shadow-card transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <BookOpen className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Interactive Dictionary</h3>
-                  <p className="text-white/90">A–Z engineering terms with visual diagrams and clear explanations</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur border border-white/20 text-white hover:shadow-card transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <Zap className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Gamified Quizzes</h3>
-                  <p className="text-white/90">Learn through interactive challenges and progress tracking</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur border border-white/20 text-white hover:shadow-card transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <Trophy className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Progress Rewards</h3>
-                  <p className="text-white/90">Earn XP, streaks, and achievements as you master concepts</p>
-                </CardContent>
-              </Card>
-            </div>
+          </div>
+
+          {/* Feature Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <Card className="bg-gradient-primary text-white hover:shadow-card transition-all duration-300">
+              <CardContent className="p-6 text-center">
+                <Zap className="w-12 h-12 mx-auto mb-4 animate-float" />
+                <h3 className="text-xl font-bold mb-2">Prime Movers</h3>
+                <p className="text-white/90">Learn about engines, generators, and power systems</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-gradient-secondary text-white hover:shadow-card transition-all duration-300">
+              <CardContent className="p-6 text-center">
+                <Car className="w-12 h-12 mx-auto mb-4 animate-bounce-gentle" />
+                <h3 className="text-xl font-bold mb-2">Hybrid Vehicles</h3>
+                <p className="text-white/90">Explore modern automotive technology</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-gradient-accent text-white hover:shadow-card transition-all duration-300">
+              <CardContent className="p-6 text-center">
+                <BookOpen className="w-12 h-12 mx-auto mb-4 animate-gear-rotate" />
+                <h3 className="text-xl font-bold mb-2">Interactive Learning</h3>
+                <p className="text-white/90">Visual dictionary with detailed explanations</p>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Instructions */}
@@ -79,9 +70,7 @@ const Index = () => {
           </div>
 
           {/* Alphabet Grid */}
-          <div id="alphabet-start">
-            <AlphabetGrid />
-          </div>
+          <AlphabetGrid />
         </div>
       </section>
 
