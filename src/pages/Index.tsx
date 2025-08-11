@@ -34,7 +34,7 @@ const Index = () => {
                   Welcome to Learning!
                 </h2>
                 <p className="text-lg md:text-xl text-white/90">
-                  Discover engineering terms from A to Z
+                  Discover engineering terms from <span className="whitespace-nowrap">A to Z</span>
                 </p>
                 <div className="mt-6 flex items-center justify-center gap-3">
                   <Button variant="hero" size="lg" onClick={scrollToAlphabet} aria-label="Scroll to alphabet section">
