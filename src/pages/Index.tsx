@@ -3,7 +3,15 @@ import Header from "@/components/Header";
 import Quiz from "@/components/Quiz";
 import heroImage from "@/assets/hero-engineering.jpg";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { BookOpen, Zap, Car } from "lucide-react";
+
+function scrollToAlphabet() {
+  document.getElementById('alphabet-section')?.scrollIntoView({ behavior: 'smooth' });
+}
+function scrollToQuiz() {
+  document.getElementById('quiz-section')?.scrollIntoView({ behavior: 'smooth' });
+}
 
 const Index = () => {
   return (
@@ -28,6 +36,14 @@ const Index = () => {
                 <p className="text-lg md:text-xl text-white/90">
                   Discover engineering terms from A to Z
                 </p>
+                <div className="mt-6 flex items-center justify-center gap-3">
+                  <Button variant="hero" size="lg" onClick={scrollToAlphabet} aria-label="Scroll to alphabet section">
+                    Let's get started
+                  </Button>
+                  <Button variant="secondary" size="lg" onClick={scrollToQuiz} aria-label="Scroll to quiz section">
+                    Take quiz
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -70,11 +86,13 @@ const Index = () => {
           </div>
 
           {/* Alphabet Grid */}
+          <div id="alphabet-section" className="h-0" aria-hidden="true"></div>
           <AlphabetGrid />
         </div>
       </section>
 
       {/* Quiz Section */}
+      <div id="quiz-section"></div>
       <Quiz />
     </div>
   );
