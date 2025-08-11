@@ -328,7 +328,7 @@ const QuizPage = () => {
                   <div>Time Remaining: {formatTime(timeLeft)}</div>
                 )}
               </div>
-              <div className="flex gap-4 justify-center">
+              <div className="flex flex-wrap gap-4 justify-center">
                 <Button
                   onClick={handleBackToHome}
                   className="bg-white text-primary hover:bg-white/90"
@@ -344,6 +344,21 @@ const QuizPage = () => {
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Retry Quiz
                 </Button>
+                {selectedLevel && selectedLevel.id < quizLevels.length && (
+                  <Button
+                    onClick={() => navigate(`/quiz/${selectedLevel.id + 1}`)}
+                    disabled={!unlockedLevels.includes(selectedLevel.id + 1)}
+                    className="bg-white text-primary hover:bg-white/90"
+                    title={
+                      !unlockedLevels.includes(selectedLevel.id + 1)
+                        ? "Score at least 70% to unlock the next level"
+                        : undefined
+                    }
+                  >
+                    <Rocket className="w-4 h-4 mr-2" />
+                    Next Level
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
