@@ -339,7 +339,7 @@ const QuizPage = () => {
                 <Button
                   onClick={() => window.location.reload()}
                   variant="outline"
-                  className="border-white text-black hover:bg-white/10"
+                  className="border-white text-black hover:bg-white/90"
                 >
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Retry Quiz
