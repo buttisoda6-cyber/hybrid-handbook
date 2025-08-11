@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, Zap, Car } from "lucide-react";
 
 function scrollToAlphabet() {
-  document.getElementById('alphabet-section')?.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('instructions')?.scrollIntoView({ behavior: 'smooth' });
 }
 function scrollToQuiz() {
   document.getElementById('quiz-section')?.scrollIntoView({ behavior: 'smooth' });
@@ -37,10 +37,10 @@ const Index = () => {
                   Discover engineering terms from <span className="whitespace-nowrap">A to Z</span>
                 </p>
                 <div className="mt-6 flex items-center justify-center gap-3">
-                  <Button variant="hero" size="lg" onClick={scrollToAlphabet} aria-label="Scroll to alphabet section">
+                  <Button variant="electric" size="lg" onClick={scrollToAlphabet} aria-label="Scroll to alphabet section">
                     Let's get started
                   </Button>
-                  <Button variant="secondary" size="lg" onClick={scrollToQuiz} aria-label="Scroll to quiz section">
+                  <Button variant="mechanical" size="lg" onClick={scrollToQuiz} aria-label="Scroll to quiz section">
                     Take quiz
                   </Button>
                 </div>
@@ -76,7 +76,7 @@ const Index = () => {
           </div>
 
           {/* Instructions */}
-          <div className="text-center mb-8">
+          <div id="instructions" className="text-center mb-8">
             <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               Choose a Letter to Start Learning
             </h3>
