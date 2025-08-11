@@ -285,28 +285,18 @@ const QuizPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-16 max-w-2xl">
-          <Card className={`${selectedLevel.gradient} text-white animate-fade-in`}>
+          <Card className="bg-gradient-primary text-white">
             <CardHeader className="text-center">
               <Trophy className="w-16 h-16 mx-auto mb-4 animate-bounce-gentle" />
               <CardTitle className="text-3xl">Quiz Complete!</CardTitle>
             </CardHeader>
-            <CardContent className="text-center space-y-8">
-              {/* Score Ring */}
-              <div className="mx-auto w-36 h-36 relative">
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background: `conic-gradient(hsl(var(--accent)) ${((score / questions.length) * 360)}deg, hsl(var(--accent)/0.2) 0deg)`,
-                  }}
-                />
-                <div className="absolute inset-2 rounded-full bg-white/90 grid place-items-center text-primary">
-                  <div>
-                    <div className="text-3xl font-bold">{Math.round((score / questions.length) * 100)}%</div>
-                    <div className="text-xs opacity-70">Accuracy</div>
-                  </div>
-                </div>
+            <CardContent className="text-center space-y-6">
+              <div className="text-6xl font-bold">
+                {score}/{questions.length}
               </div>
-
+              <div className="text-xl">
+                {((score / questions.length) * 100).toFixed(0)}% Correct
+              </div>
               {(() => {
                 const result = getScoreMessage();
                 return (
@@ -331,47 +321,26 @@ const QuizPage = () => {
                   </>
                 );
               })()}
-
-              {/* Stats */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="rounded-lg bg-white/10 p-4">
-                  <div className="text-sm text-white/80">Score</div>
-                  <div className="text-2xl font-bold">{score}/{questions.length}</div>
-                </div>
-                <div className="rounded-lg bg-white/10 p-4">
-                  <div className="text-sm text-white/80">Difficulty</div>
-                  <div className="text-2xl font-bold">{selectedLevel.difficulty}</div>
-                </div>
-                {selectedLevel.timeLimit && timeLeft !== null ? (
-                  <div className="rounded-lg bg-white/10 p-4">
-                    <div className="text-sm text-white/80">Time Left</div>
-                    <div className="text-2xl font-bold">{formatTime(timeLeft)}</div>
-                  </div>
-                ) : (
-                  <div className="rounded-lg bg-white/10 p-4">
-                    <div className="text-sm text-white/80">Level</div>
-                    <div className="text-2xl font-bold">{selectedLevel.name}</div>
-                  </div>
+              <div className="space-y-2">
+                <div>Level: {selectedLevel.name}</div>
+                <div>Difficulty: {selectedLevel.difficulty}</div>
+                {timeLeft !== null && (
+                  <div>Time Remaining: {formatTime(timeLeft)}</div>
                 )}
               </div>
-
-              {/* Actions */}
-              <div className="flex gap-4 justify-center flex-wrap">
-                <Button onClick={handleBackToHome} variant="secondary">
+              <div className="flex gap-4 justify-center">
+                <Button
+                  onClick={handleBackToHome}
+                  className="bg-white text-primary hover:bg-white/90"
+                >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Home
                 </Button>
-                {selectedLevel && (() => {
-                  const nextId = selectedLevel.id + 1;
-                  const result = getScoreMessage();
-                  const canGoNext = nextId <= quizLevels.length && (result.passed || unlockedLevels.includes(nextId));
-                  return canGoNext ? (
-                    <Button onClick={() => navigate(`/quiz/${nextId}`)} variant="hero">
-                      Next Level
-                    </Button>
-                  ) : null;
-                })()}
-                <Button onClick={() => window.location.reload()} variant="default">
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                  className="border-white text-white hover:bg-white/10"
+                >
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Retry Quiz
                 </Button>
@@ -426,7 +395,7 @@ const QuizPage = () => {
         </div>
 
         {/* Question Card */}
-        <Card className="mb-6 animate-fade-in">
+        <Card className="mb-6">
           <CardHeader>
             <CardTitle className="text-xl text-center">
               {currentQuestion.question}
@@ -495,15 +464,15 @@ const QuizPage = () => {
               </div>
             )}
 
+            {!showResult && (
               <Button
                 onClick={handleAnswerSubmit}
                 disabled={!selectedAnswer}
                 className="w-full mt-6"
-                variant="hero"
               >
-                <CheckCircle className="w-4 h-4" />
                 Submit Answer
               </Button>
+            )}
           </CardContent>
         </Card>
 
